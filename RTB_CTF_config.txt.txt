@@ -1,0 +1,187 @@
+// Began with Ubuntu VM installation
+
+
+// Install the Git package.
+sudo apt-get install git
+
+// The first step is to use the command below to update the package list.
+sudo apt update
+
+// Next upgrade the package list.
+sudo apt upgrade
+
+// The requirements needed to install git must be installed.
+sudo apt install libcurl4-gnutls-dev libexpat1-dev gettext libz-dev libssl-dev build-essential
+
+// Use the following command to download the Git source code from the GitHub website.
+wget https://github.com/git/git/archive/refs/tags/v2.31.1.tar.gz
+
+// Run the following command to extract the downloaded archive.by using the tar command.
+tar -xvf v2.31.1.tar.gz
+
+// Use the following command to navigate to the extracted directory.
+cd git-2.31.1
+
+// Run the following command to configure the build.
+make configure 
+// make configure will give you error messages but the command make all will download everything
+
+
+// Set up the script by running the command below.
+./configure --prefix=/usr/local
+
+// We need to compile the source code which can be done with the help of the following command.
+make all
+
+// Install Git by using the following command. 
+sudo make install
+
+// Confirm that it has been installed and if so, check the version.
+git --version
+
+
+// cd back to /home
+cd 
+
+
+
+///// Installing Docker on Ubuntu /////
+// Install prerequisites
+sudo apt install apt-transport-https ca-certificates curl gnupg lsb-release
+
+// Next, import the Docker GPG repository key to your Ubuntu system. This security feature ensures that the software you’re installing is authentic.
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+//After importing the GPG keys, we’ll add the official Docker repository to our Ubuntu 22.04 system. This implies that the update package will be made available with the rest of your system’s regular updates if a new version is released.
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+// Next, refesh the package list.
+sudo apt update
+
+// Install Docker. To install the latest up-to-date Docker release on Ubuntu, run the below command.
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+// Docker should now be installed; the service started and enabled to start automatically on boot. In addition, you can check the Docker service status using the following:
+sudo systemctl is-active docker
+
+// Now let’s check if everything with our new Docker installation works properly. For this purpose, we will run a simple application called “hello-world.” 
+sudo docker run hello-world
+
+
+///// Install docker-compose /////
+// Install required packages.
+sudo apt install ca-certificates curl
+
+// Set ownership permissions for the /etc/apt/keyrings directory:
+sudo install -m 0755 -d /etc/apt/keyrings
+
+// Download the key with curl:
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+
+// Set read permissions for the key:
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+// Add the Docker repository to the list of APT sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+// Install the Docker Compose Plugin
+//Update the repository list:
+sudo apt update
+
+// Install Docker Compose:
+sudo apt install docker-compose-plugin -y
+
+// After the download completes, confirm that Docker Compose is installed by typing:
+docker compose version
+
+// Test Run Docker Compose
+// Create and go to the hello-world directory:
+mkdir hello-world && cd hello-world
+
+// Create a compose.yml file to store container deployment instructions:
+nano compose.yml
+
+//  Paste the following code into the file. The code defines a service container named hello-world, which uses the hello-world:latest Docker image as the template.
+version: '2'
+services:
+   hello-world:
+      image:
+         hello-world:latest
+
+// Save the file and exit.
+
+// Run Docker Compose by running the following command:
+docker compose up
+
+
+// cd to /home
+cd
+
+/////==============/////
+sudo apt-get install git
+
+// Clone the Github repository:
+sudo git clone https://github.com/moloch--/RootTheBox.git
+
+// Switch into the repo directory:
+cd RootTheBox
+
+// Update RTB
+// Pull the Github repo:
+git pull
+
+// OR
+roothebox.py --update
+
+
+/////------------------------/////
+// Install MySQL 
+sudo apt install mysql-server
+
+// Once installation is complete, the MySQL service will auto start. To verify that the MySQL server is running, type:
+sudo systemctl status mysql
+
+***// If for some reason, the server fails to start, you can torubleshoot the issue by looking into your server logs: 
+sudo journalctl -u mysql
+
+// Secure MySQL: MySQL installation comes with a script named mysql_secure_installtion that allows you to improve the database server security. 
+// Invoke the script without arguments:
+sudo mysql_secure_installation
+
+
+// Login into the MySQL server as the root user:
+sudo mysql
+
+// The first option is to change the authentication method from auth_socket to mysql_native_password. You can do that by running the following command:
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'very_strong_password';
+
+// The next recommended option is to create a new dedicated administrative user with access to all databases:
+GRANT ALL PRIVILEGES ON *.* TO 'administrator'@'localhost' IDENTIFIED BY 'very_strong_password';
+
+
+/////-------------------/////
+cd Downloads/ # No need to cd to downloads
+cd RootTheBox
+git log -1 oneline
+git stash
+git pull
+docker-compose build
+
+// If not installed...
+sudo apt install docker-compose
+
+// Run RootTheBox:
+docker compose up
+
+
+Site: http://localhost:8888
+
+Login: admin 
+Password: rootthebox
+
+
+
+
